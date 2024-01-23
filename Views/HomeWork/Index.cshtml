@@ -3,7 +3,7 @@
 }
 
 <h1>台灣景點</h1>
-<div id="bobo" class="row row-cols-1"></div>
+<div id="bobo" class="row row-cols-3"></div>
 
 @section Scripts {
 	<script src="~/js/travel.js"></script>
@@ -13,7 +13,7 @@
 		const bob = spots.CommonFormat.Section;
 
 		const datas = bob.map(section => {
-			const { RowNumber, REF_WP, CAT1, CAT2, SERIAL_NO, MEMO_TIME, stitle, xbody, avBegin, avEnd, idpt, address, xpostDate, file } = section
+			const { RowNumber, REF_WP, CAT1, CAT2, SERIAL_NO, MEMO_TIME, stitle, xbody, avBegin, avEnd, idpt, address, xpostDate, file, info } = section
 			let pic = ""
 			let picAlt = ""
 
@@ -28,28 +28,36 @@
 				picAlt = file.img[0].description
 			}
 
-
-
-
-			const cardContent = `<div class="col-4"><div class="card" style="width: 18rem;">
-								<img src="${pic}" class="card-img-top" alt="${picAlt}">
-								<div class="card-body">
-								<h5 class="card-title">${stitle}</h5>
-								<p class="card-text">${CAT2}</p>
-								<p class="d-inline-flex gap-1">
-								<p class="d-inline-flex gap-1">
-												<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample${RowNumber}" role="button" aria-expanded="false" aria-controls="collapseExample${RowNumber}">
-									查看更多
-								  </a>
-							</p>
-										<div class="collapse" id="collapseExample${RowNumber}">
-								  <div class="card card-body">
-											${xbody}
-								  </div>
-								</div>
-														  </div>
-							</div>
-							</div>`
+            const cardContent = `<div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="${pic}" class="card-img-top" alt="${picAlt}">
+                <div class="card-body">
+                    <h5 class="card-title">${stitle}</h5>
+                    <p class="card-text">${CAT2}</p>
+                    <p class="card-text">位於:${stitle}</p>
+                    <div class="d-inline-flex gap-1">
+                        <a class="btn btn-info" data-bs-toggle="collapse" href="#collapseExample${RowNumber}" role="button" aria-expanded="false" aria-controls="collapseExample${RowNumber}">
+                            查看更多
+                        </a>
+                    </div>
+                             <div class="d-inline-flex gap-1">
+                                <a class="btn btn-danger" data-bs-toggle="collapse" href="#collapseTraffic${RowNumber}" role="button" aria-expanded="false" aria-controls="collapseExample${RowNumber}">
+                                    交通資訊
+                                </a>
+                            </div>
+                    <div class="collapse" id="collapseExample${RowNumber}">
+                       
+                            ${xbody}
+                      
+                    </div>
+                   
+                    <div class="collapse" id="collapseTraffic${RowNumber}">
+                        ${info}
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
 			return cardContent;
 		})
 		document.querySelector("#bobo").innerHTML = datas.join('');

@@ -1,0 +1,122 @@
+﻿@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>台灣景點</h1>
+<div id="bobo" class="row row-cols-1"></div>
+
+@section Scripts {
+	<script src="~/js/travel.js"></script>
+	<script>
+		console.log(spots.CommonFormat.Section);
+
+		const bob = spots.CommonFormat.Section;
+
+		const datas = bob.map(section => {
+			const { RowNumber, REF_WP, CAT1, CAT2, SERIAL_NO, MEMO_TIME, stitle, xbody, avBegin, avEnd, idpt, address, xpostDate, file } = section
+			let pic = ""
+			let picAlt = ""
+
+			// try {
+			// 	pic = file.img[0].text
+			// 	picAlt = file.img[0].description
+			// }
+			// catch { }
+			if (file.img.length > 0) {
+				console.log(file.img.length)
+				pic = file.img[0].text
+				picAlt = file.img[0].description
+			}
+
+
+
+
+			const cardContent = `<div class="col-4"><div class="card" style="width: 18rem;">
+								<img src="${pic}" class="card-img-top" alt="${picAlt}">
+								<div class="card-body">
+								<h5 class="card-title">${stitle}</h5>
+								<p class="card-text">${CAT2}</p>
+								<p class="d-inline-flex gap-1">
+								<p class="d-inline-flex gap-1">
+												<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample${RowNumber}" role="button" aria-expanded="false" aria-controls="collapseExample${RowNumber}">
+									查看更多
+								  </a>
+							</p>
+										<div class="collapse" id="collapseExample${RowNumber}">
+								  <div class="card card-body">
+											${xbody}
+								  </div>
+								</div>
+														  </div>
+							</div>
+							</div>`
+			return cardContent;
+		})
+		document.querySelector("#bobo").innerHTML = datas.join('');
+
+
+	</script>
+}
+@*
+CAT1
+:
+"景點"
+CAT2
+:
+"養生溫泉"
+MEMO_TIME
+:
+"各業者不同，依據現場公告"
+MRT
+:
+"新北投"
+POI
+:
+"Y"
+REF_WP
+:
+"10"
+RowNumber
+:
+"1"
+SERIAL_NO
+:
+"2011051800000061"
+address
+:
+"臺北市  北投區中山路、光明路沿線"
+avBegin
+:
+"2010/02/14"
+avEnd
+:
+"2015/12/11"
+file
+:
+img
+:
+Array(6)
+0
+:
+{@description: '北投溫泉溫泉博物館', text: 'http://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000848.jpg'}
+1
+:
+{@description: '新北投溫泉區', text: 'http://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11002891.jpg'}
+2
+:
+{@description: '吟松閣_王能佑攝 (2)', text: 'http://www.travel.taipei/d_upload_ttn/sceneadmin/i…/E70/F65/1e0951fb-069f-4b13-b5ca-2d09df1d3d90.JPG'}
+3
+:
+{@description: '吟松閣_王能佑攝', text: 'http://www.travel.taipei/d_upload_ttn/sceneadmin/i…538/F274/e7d482ba-e3c0-40c3-87ef-3f2a1c93edfa.JPG'}
+4
+:
+{@description: '冷水坑公共浴室_王能佑攝', text: 'http://www.travel.taipei/d_upload_ttn/sceneadmin/i…767/F581/9ddde70e-55c2-4cf0-bd3d-7a8450582e55.jpg'}
+5
+:
+{@description: '飯店溫泉_王能佑攝', text: 'http://www.travel.taipei/d_upload_ttn/sceneadmin/i…891/F188/77a58890-7711-4ca2-aebe-4aa379726575.JPG'}
+length
+:
+6
+[[Prototype]]
+:
+Array(0) *@
